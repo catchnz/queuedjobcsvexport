@@ -1,4 +1,11 @@
 <?php
+
+namespace Silverstripe\QueuedJobsCSVExport;
+
+use AbstractQueuedJob;
+use QueuedJob;
+use DataList;
+
 /**
  * This queued job is to export data into a CSV for downloading.
  *

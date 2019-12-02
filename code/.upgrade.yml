@@ -1,0 +1,2 @@
+mappings:
+  ExportObjectsCSVJob: Silverstripe\QueuedJobsCSVExport\ExportObjectsCSVJob
