@@ -2,9 +2,10 @@
 
 namespace Silverstripe\QueuedJobsCSVExport;
 
-use AbstractQueuedJob;
-use QueuedJob;
-use DataList;
+use Symbiote\QueuedJobs\Services\AbstractQueuedJob;
+use Symbiote\QueuedJobs\Services\QueuedJob;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\ORM\DataList;
 
 /**
  * This queued job is to export data into a CSV for downloading.
@@ -38,7 +39,7 @@ class ExportObjectsCSVJob extends AbstractQueuedJob implements QueuedJob {
     public function getSignature() {
         return md5(get_class($this) . serialize($this->dataList));
     }
-    
+
     /**
      * Return "Queued" job type
      */
@@ -51,7 +52,7 @@ class ExportObjectsCSVJob extends AbstractQueuedJob implements QueuedJob {
      * @return DataList
      */
     protected function getDataList() {
-        return DataList::create('SiteTree');
+        return DataList::create(SiteTree::class);
     }
 
     /**
@@ -149,7 +150,7 @@ class ExportObjectsCSVJob extends AbstractQueuedJob implements QueuedJob {
 
         if (!$this->validateFields()) return;
         if (!$this->validateFile()) return;
-        
+
                 // Put header info
         if (!fputcsv($this->file, $this->fields)) {
             $this->addMessage("Unable to write data to: " . $this->getFilePath(), 'ERROR');
@@ -190,7 +191,7 @@ class ExportObjectsCSVJob extends AbstractQueuedJob implements QueuedJob {
 
         if (!$this->validateFields()) return;
         if (!$this->validateFile(true)) return;
-        
+
         // Put header info if restarted from beginning
         if ($this->currentStep <= 0 && !fputcsv($this->file, $this->fields)) {
             $this->addMessage("Unable to write data to: " . $this->getFilePath(), 'ERROR');
@@ -248,7 +249,7 @@ class ExportObjectsCSVJob extends AbstractQueuedJob implements QueuedJob {
                 if (!$this->exportDataTo()) return;
 
                 $this->currentStep++;
-                $processCount++;           
+                $processCount++;
 
                 // Break loop after X number of objects are exported
                 if ($processCount >= $this->getNumberToProcess()) {
