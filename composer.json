@@ -1,7 +1,7 @@
 {
 	"name": "silverstripe/queuedjobs-csv-export",
 	"description": "Export Objects using QueuedJobs",
-	"version": "2.0.3",
+	"version": "2.0.5",
 	"type": "silverstripe-vendormodule",
 	"keywords": ["silverstripe", "jobs", "csv", "export"],
 	"license": "BSD-3-Clause",
